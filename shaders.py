@@ -1,5 +1,7 @@
 # Los shaders de OpenGL se escriben en un lenguaje de progra llamado GLSL
 
+
+#se llama para cada vértice
 vertex_shader = """
 #version 460
 
@@ -19,7 +21,7 @@ void main()
 }
 """
 
-
+#se llama para cada pixel
 fragment_shader ="""
 #version 460
 

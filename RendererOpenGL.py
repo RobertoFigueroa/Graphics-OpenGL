@@ -22,12 +22,24 @@ r.createObjects()
 
 cubeX = 0
 cubeZ = 0
+cubeY = 0
+yCam = 0
+pCam = 0
+
+halfXScreen = screenSize[0] / 2
+halfYScreen = screenSize[1] / 2
+
 
 isPlaying = True
 while isPlaying:
 
+    mouse = pygame.mouse.get_pos()
     # Para revisar si una tecla esta presionada
     keys = pygame.key.get_pressed()
+    if mouse[0] < halfXScreen -50 :
+        yCam += 2 * deltaTime
+    if mouse[0] > halfXScreen + 50:
+        yCam -= 2 * deltaTime
     if keys[pygame.K_a]:
         cubeX -= 2 * deltaTime
     if keys[pygame.K_d]:
@@ -36,6 +48,10 @@ while isPlaying:
         cubeZ -= 2 * deltaTime
     if keys[pygame.K_s]:
         cubeZ += 2 * deltaTime
+    if mouse[1] < halfYScreen -50 :
+        pCam += 2 * deltaTime
+    if mouse[1] > halfYScreen + 50:
+        pCam -= 2 * deltaTime
 
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -50,7 +66,8 @@ while isPlaying:
                 isPlaying = False
 
 
-    r.translateCube(cubeX, 0, cubeZ)
+    r.translateCube(cubeX, cubeY, cubeZ)
+    r.rotateCam(yCam, 0, pCam)  
 
     # Main Renderer Loop
     r.render()

@@ -5,33 +5,55 @@ import numpy as np
 
 
                      # VERTS           COLOR
-rectVerts = np.array([ 0.5, 0.5, 0.5,  1,0,0, 
-                       0.5,-0.5, 0.5,  0,1,0, 
-                      -0.5,-0.5, 0.5,  0,0,1, 
-                      -0.5, 0.5, 0.5,  1,1,0,
-                       0.5, 0.5,-0.5,  1,0,1,
-                       0.5,-0.5,-0.5,  0,1,1,
-                      -0.5,-0.5,-0.5,  1,1,1,
-                      -0.5, 0.5,-0.5,  0,0,0 ], dtype=np.float32)
+# rectVerts = np.array([ 0.5, 0.5, 0.5,  1,0,0, 
+#                        0.5,-0.5, 0.5,  0,1,0, 
+#                       -0.5,-0.5, 0.5,  0,0,1, 
+#                       -0.5, 0.5, 0.5,  1,1,0,
+#                        0.5, 0.5,-0.5,  1,0,1,
+#                        0.5,-0.5,-0.5,  0,1,1,
+#                       -0.5,-0.5,-0.5,  1,1,1,
+#                       -0.5, 0.5,-0.5,  0,0,0 ], dtype=np.float32)
+
+# rectIndices = np.array([ #front
+#                          0, 1, 3,
+#                          1, 2, 3,
+#                          #left
+#                          4, 5, 0,
+#                          5, 1, 0,
+#                          #back
+#                          7, 6, 4,
+#                          6, 5, 4,
+#                          #right
+#                          3, 2, 7,
+#                          2, 6, 7,
+#                          #top
+#                          1, 5, 2,
+#                          5, 6, 2,
+#                          #bottom
+#                          4, 0, 7,
+#                          0, 3, 7], dtype=np.uint32)
+
+
+
+#For Pyramid
+
+rectVerts = np.array([ -0.5, 0.0, -0.5,     1,0,0, 
+                       -0.5, 0.0, 0.5,      0,1,0, 
+                        0.5,0.0, 0.5,       0,0,1, 
+                        0.5, 0.0, -0.5,     1,1,0,
+                        0.0, 0.5,0.0,       1,0,1 ], dtype=np.float32)
 
 rectIndices = np.array([ #front
-                         0, 1, 3,
-                         1, 2, 3,
+                         0, 4, 3,
                          #left
-                         4, 5, 0,
-                         5, 1, 0,
+                         1, 4, 0,
                          #back
-                         7, 6, 4,
-                         6, 5, 4,
+                         2, 4, 1,
                          #right
-                         3, 2, 7,
-                         2, 6, 7,
-                         #top
-                         1, 5, 2,
-                         5, 6, 2,
+                         3, 4, 1,
                          #bottom
-                         4, 0, 7,
-                         0, 3, 7], dtype=np.uint32)
+                         0, 1, 3,
+                         1, 2, 3], dtype=np.uint32)
 
 
 
@@ -49,6 +71,14 @@ class Renderer(object):
 
         self.cubePos = glm.vec3(0,0,0)
 
+        self.cubeRot = glm.vec3(0,0,0)
+
+        self.pitch = 0
+
+        self.yaw = 0
+
+        self.roll = 0
+
 
     def wireframeMode(self):
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
@@ -58,6 +88,11 @@ class Renderer(object):
 
     def translateCube(self, x, y, z):
         self.cubePos = glm.vec3(x,y,z)
+    
+    def rotateCam(self, y, r, p):
+        self.pitch = p
+        self.yaw = y
+        self.roll = r
 
 
     def setShaders(self, vertexShader, fragShader):
@@ -110,9 +145,9 @@ class Renderer(object):
         # View Matrix
         # glm.lookAt( eye, center, up)
         camTranslate = glm.translate(i, glm.vec3( 0, 0, 3))
-        camPitch = glm.rotate(i, glm.radians( 0 ), glm.vec3(1,0,0))
-        camYaw   = glm.rotate(i, glm.radians( 0 ), glm.vec3(0,1,0))
-        camRoll  = glm.rotate(i, glm.radians( 0 ), glm.vec3(0,0,1))
+        camPitch = glm.rotate(i, glm.radians( self.pitch ), glm.vec3(1,0,0))
+        camYaw   = glm.rotate(i, glm.radians( self.yaw ), glm.vec3(0,1,0))
+        camRoll  = glm.rotate(i, glm.radians( self.roll ), glm.vec3(0,0,1))
         camRotate = camPitch * camYaw * camRoll
         view = glm.inverse( camTranslate * camRotate )
 
