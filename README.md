@@ -15,4 +15,4 @@ python3 RendererOpenGL.py
 
 ## Demo
 
-![alt-text](https://raw.githubusercontent.com/RobertoFigueroa/Graphics-OpenGL/demo.png?raw=true)
+![alt-text](https://github.com/RobertoFigueroa/Graphics-OpenGL/blob/main/demo.png)
