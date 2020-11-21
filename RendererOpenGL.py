@@ -4,6 +4,8 @@ from pygame.locals import *
 from gl import Renderer, Model
 import shaders
 
+import glm
+
 deltaTime = 0.0
 
 # Inicializacion de pygame
@@ -19,8 +21,9 @@ r.pointLight.x = 5
 
 r.setShaders(shaders.vertex_shader, shaders.fragment_shader)
 
-r.modelList.append(Model('model.obj', 'model.bmp'))
+r.modelList.append(Model('horse.obj', 'horse.bmp'))
 
+r.modelList[0].scale = glm.vec3(0.01,0.01,0.01)
 
 
 isPlaying = True

@@ -27,9 +27,10 @@ class Obj(object):
                 elif prefix == 'vt':
                     self.texcoords.append(list(map(float,value.split(' '))))
                 elif prefix == 'f':
-                    self.faces.append([list(map(int,vert.split('/'))) for vert in value.split(' ')])
-
-
-
+                    faceLine = []
+                    for vert in value.split(' '):
+                        if vert != ' ' and vert != '':
+                            faceLine.append(list(map(int, vert.split('/'))))
+                    self.faces.append(faceLine)
 
 
