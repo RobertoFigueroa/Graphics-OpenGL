@@ -21,7 +21,7 @@ r.pointLight.x = 5
 
 r.setShaders(shaders.vertex_shader, shaders.fragment_shader)
 
-r.modelList.append(Model('pig.obj', 'pig.bmp'))
+r.modelList.append(Model('house.obj', 'house.bmp'))
 
 r.modelList[0].scale = glm.vec3(0.01,0.01,0.01)
 
