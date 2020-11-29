@@ -1,5 +1,7 @@
 import pygame
 from pygame.locals import *
+import pygame_menu
+from time import sleep
 
 from gl import Renderer, Model
 import shaders
@@ -11,27 +13,32 @@ deltaTime = 0.0
 # Inicializacion de pygame
 pygame.init()
 clock = pygame.time.Clock()
-screenSize = (960, 540)
+screenSize = (1000, 500)
 screen = pygame.display.set_mode(screenSize, DOUBLEBUF | OPENGL)
+font = pygame.font.SysFont("Arial", 30)
+
 
 # Inicializacion de nuestro Renderer en OpenGL
 r = Renderer(screen)
 r.camPosition.z = 3
 r.pointLight.x = 5
+r.pointLight.y = 5
 
-r.setShaders(shaders.vertex_shader, shaders.fragment_shader)
 
+r.setShaders(shaders.vertex_shader2, shaders.fragment_shader)
+
+r.modelList.append(Model('heli.obj', 'heli.bmp'))
 r.modelList.append(Model('heli2.obj', 'heli2.bmp'))
+r.modelList.append(Model('airplane.obj', 'airplane.bmp'))
+r.modelList.append(Model('horse.obj', 'horse.bmp'))
 
-r.modelList[0].scale = glm.vec3(0.01,0.01,0.01)
-
+for model in r.modelList:
+    model.scale = glm.vec3(0.01,0.01,0.01)
 
 isPlaying = True
 while isPlaying:
-
     # Para revisar si una tecla esta presionada
     keys = pygame.key.get_pressed()
-
     # Move cam
     if keys[K_d]:
         r.camPosition.x += 1 * deltaTime
@@ -41,6 +48,14 @@ while isPlaying:
         r.camPosition.z -= 1 * deltaTime
     if keys[K_s]:
         r.camPosition.z += 1 * deltaTime
+    if keys[K_RIGHT]:
+        sleep(0.5)
+        sound = pygame.mixer.Sound('./click.wav')
+        pygame.mixer.Sound.play(sound)
+        r.selected_model = (r.selected_model + 1) 
+    if keys[K_LEFT]:
+        sleep(0.5)
+        r.selected_model = (r.selected_model - 1) % len(r.modelList)  
 
 
     for ev in pygame.event.get():

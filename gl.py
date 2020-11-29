@@ -12,6 +12,7 @@ class Model(object):
 
         self.createVertBuffer()
 
+
         self.texture_surface = pygame.image.load(textureName)
         self.texture_data = pygame.image.tostring(self.texture_surface,"RGB",1)
         self.texture = glGenTextures(1)
@@ -90,6 +91,9 @@ class Renderer(object):
         self.screen = screen
         _, _, self.width, self.height = screen.get_rect()
 
+        self.selected_model = 0
+
+
         glEnable(GL_DEPTH_TEST)
         glViewport(0, 0, self.width, self.height)
 
@@ -153,13 +157,15 @@ class Renderer(object):
             glUniform4f(glGetUniformLocation(self.active_shader, "color"), 
                         1, 1, 1, 1)
 
+            glUniform1f(glGetUniformLocation(self.active_shader, "ambient"), 0.7)
 
-        for model in self.modelList:
-            if self.active_shader:
-                glUniformMatrix4fv(glGetUniformLocation(self.active_shader, "model"),
-                                   1, GL_FALSE, glm.value_ptr( model.getMatrix() ))
+            glUniform1f(glGetUniformLocation(self.active_shader, "time"), pygame.time.get_ticks() / 1000)
 
-            model.renderInScene()
+        if self.active_shader:
+            glUniformMatrix4fv(glGetUniformLocation(self.active_shader, "model"),
+                                1, GL_FALSE, glm.value_ptr( self.modelList[self.selected_model].getMatrix() ))
+
+            self.modelList[self.selected_model].renderInScene()
 
 
 
