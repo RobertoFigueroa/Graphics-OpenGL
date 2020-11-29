@@ -30,7 +30,7 @@ r.setShaders(shaders.vertex_shader4, shaders.fragment_shader)
 r.modelList.append(Model('heli.obj', 'heli.bmp'))
 r.modelList.append(Model('heli2.obj', 'heli2.bmp'))
 r.modelList.append(Model('airplane.obj', 'airplane.bmp'))
-r.modelList.append(Model('horse.obj', 'horse.bmp'))
+r.modelList.append(Model('house.obj', 'house.bmp'))
 
 for model in r.modelList:
     model.scale = glm.vec3(0.01,0.01,0.01)
