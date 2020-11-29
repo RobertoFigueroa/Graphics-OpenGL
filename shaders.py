@@ -139,13 +139,13 @@ out vec2 vertexTexcoords;
 void main()
 {
     
+    vec4 newPos = pos;
+    newPos.y += 5*cos(time);
 
-    float intensity = dot(normal, normalize(light));
+    float intensity = dot(normal, normalize(light- newPos));
 
-    gl_Position = projection * view * model * pos;
-    _vertexColor = vec4(ambient, ambient, ambient, 1) + color * intensity;
-    newVertColor = (_vertexColor.x, _vertexColor.y, _vertexColor.z, cos(time));
-    vertexColor = newVertColor;
+    gl_Position = projection * view * model * newPos;
+    vertexColor = vec4(ambient, ambient, ambient, 1) + color * intensity;
     vertexTexcoords = texcoords;
 }
 """

@@ -24,8 +24,8 @@ r.camPosition.z = 3
 r.pointLight.x = 5
 r.pointLight.y = 5
 
+r.setShaders(shaders.vertex_shader4, shaders.fragment_shader)
 
-r.setShaders(shaders.vertex_shader2, shaders.fragment_shader)
 
 r.modelList.append(Model('heli.obj', 'heli.bmp'))
 r.modelList.append(Model('heli2.obj', 'heli2.bmp'))
@@ -48,15 +48,7 @@ while isPlaying:
         r.camPosition.z -= 1 * deltaTime
     if keys[K_s]:
         r.camPosition.z += 1 * deltaTime
-    if keys[K_RIGHT]:
-        sleep(0.5)
-        sound = pygame.mixer.Sound('./click.wav')
-        pygame.mixer.Sound.play(sound)
-        r.selected_model = (r.selected_model + 1) 
-    if keys[K_LEFT]:
-        sleep(0.5)
-        r.selected_model = (r.selected_model - 1) % len(r.modelList)  
-
+    
 
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -64,11 +56,23 @@ while isPlaying:
         elif ev.type == pygame.KEYDOWN:
             # para revisar en el momento que se presiona una tecla
             if ev.key == pygame.K_1:
-                r.filledMode()
+                r.setShaders(shaders.vertex_shader4, shaders.fragment_shader)
             elif ev.key == pygame.K_2:
-                r.wireframeMode()
+                r.setShaders(shaders.vertex_shader2, shaders.fragment_shader)
+            elif ev.key == pygame.K_3:
+                r.setShaders(shaders.vertex_shader3, shaders.fragment_shader)
             elif ev.key == pygame.K_ESCAPE:
                 isPlaying = False
+            elif ev.key == pygame.K_RIGHT:
+                sleep(0.5)
+                sound = pygame.mixer.Sound('./click.wav')
+                pygame.mixer.Sound.play(sound)
+                r.selected_model = (r.selected_model + 1) % len(r.modelList)
+            elif ev.key == pygame.K_LEFT:
+                sleep(0.5)
+                sound = pygame.mixer.Sound('./click.wav')
+                pygame.mixer.Sound.play(sound)
+                r.selected_model = (r.selected_model - 1) % len(r.modelList)
 
     # Main Renderer Loop
     r.render()
