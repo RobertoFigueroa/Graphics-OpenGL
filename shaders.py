@@ -21,7 +21,7 @@ void main()
     float intensity = dot(model * normal, normalize(light - pos));
 
     gl_Position = projection * view * model * pos;
-    vertexColor = color * intensity;
+    vertexColor = vec4(1,1,1,1);
     vertexTexcoords = texcoords;
 }
 """
